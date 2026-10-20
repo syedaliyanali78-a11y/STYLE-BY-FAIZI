@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Style By Fazii | Pakistan's Trusted Luxury Grooming Brand</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            DEFAULT: '#D4AF37',
+                            light: '#F3E5AB',
+                            dark: '#AA7C11',
+                            accent: '#FFD700'
+                        },
+                        dark: {
+                            bg: '#0A0A0A',
+                            card: '#141414',
+                            border: '#262626'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        serif: ['Cinzel', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        body {
+            background-color: #0A0A0A;
+            color: #E5E5E5;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #FFF099 0%, #D4AF37 50%, #996515 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gold-border-glow {
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.25);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+        }
+
+        .gold-border-glow:hover {
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
+            border: 1px solid rgba(212, 175, 55, 0.8);
+        }
+
+        .glass-card {
+            background: rgba(20, 20, 20, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0A0A0A;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D4AF37;
+        }
+
+        /* 3D Canvas styling */
+        #hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-gold selection:text-black">
+
+    <!-- NAVIGATION BAR -->
+    <nav class="fixed top-0 left-0 w-full z-50 glass-card transition-all duration-300 border-b border-neutral-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo with Profile Picture -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="relative w-12 h-12 rounded-full p-0.5 bg-gradient-to-r from-gold to-yellow-600 transition-transform group-hover:scale-105">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200" 
+                             alt="Style By Fazii" 
+                             class="w-full h-full object-cover rounded-full border border-black"
+                             onerror="this.src='https://placehold.co/100x100/141414/D4AF37?text=Fazii'">
+                    </div>
+                    <div>
+                        <span class="font-serif text-xl sm:text-2xl font-bold tracking-wider gold-gradient-text block leading-tight">STYLE BY FAZII</span>
+                        <span class="text-[9px] uppercase tracking-[0.2em] text-neutral-400 block">Pakistan's Premier Salon</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Nav Links -->
+                <div class="hidden md:flex items-center space-x-8 text-sm font-medium tracking-wide">
+                    <a href="#about" class="hover:text-gold transition-colors duration-200">ABOUT</a>
+                    <a href="#services" class="hover:text-gold transition-colors duration-200">SERVICES</a>
+                    <a href="#stats" class="hover:text-gold transition-colors duration-200">STATS</a>
+                    <a href="#branches" class="hover:text-gold transition-colors duration-200">BRANCHES</a>
+                </div>
+
+                <!-- CTA Button -->
+                <div class="hidden sm:block">
+                    <button onclick="openBookingModal()" class="relative group overflow-hidden px-6 py-2.5 rounded-full font-semibold text-xs tracking-widest text-black bg-gradient-to-r from-gold via-yellow-400 to-gold uppercase shadow-lg hover:shadow-gold/40 transition-all duration-300 transform hover:-translate-y-0.5">
+                        <span class="relative z-10 flex items-center gap-2">
+                            <i class="fa-regular fa-calendar-check text-sm"></i>
+                            Book VIP Spot
+                        </span>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-neutral-300 hover:text-gold focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden bg-dark-bg/95 border-b border-neutral-800 px-4 pt-2 pb-6 space-y-4 text-center">
+            <a href="#about" class="block text-sm py-2 hover:text-gold" onclick="toggleMenu()">ABOUT</a>
+            <a href="#services" class="block text-sm py-2 hover:text-gold" onclick="toggleMenu()">SERVICES</a>
+            <a href="#stats" class="block text-sm py-2 hover:text-gold" onclick="toggleMenu()">STATS</a>
+            <a href="#branches" class="block text-sm py-2 hover:text-gold" onclick="toggleMenu()">BRANCHES</a>
+            <button onclick="openBookingModal(); toggleMenu();" class="w-full py-3 rounded-full text-xs font-bold bg-gold text-black uppercase tracking-widest">
+                Book VIP Spot
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION WITH 3D CANVAS -->
+    <section class="relative min-h-screen flex items-center justify-center pt-24 pb-12 px-4 overflow-hidden">
+        <!-- Three.js Interactive Particle & Geometry Background -->
+        <canvas id="hero-canvas"></canvas>
+
+        <div class="relative z-10 max-w-5xl mx-auto text-center space-y-8">
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card border border-gold/30 text-gold text-xs font-semibold tracking-widest uppercase animate-pulse">
+                <i class="fa-solid fa-star text-gold"></i>
+                <span>Pakistan's Trusted Grooming Brand</span>
+                <i class="fa-solid fa-star text-gold"></i>
+            </div>
+
+            <!-- Headline -->
+            <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold uppercase tracking-wider text-white leading-tight">
+                Redefining <br>
+                <span class="gold-gradient-text">Men's Luxury</span>
+            </h1>
+
+            <p class="max-w-2xl mx-auto text-neutral-300 text-sm sm:text-base md:text-lg font-light leading-relaxed">
+                Step into the ultimate realm of luxury, precision hair styling, signature beard sculpting, and premium protein treatments engineered for the modern gentleman.
+            </p>
+
+            <!-- Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                <button onclick="openBookingModal()" class="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-gold via-yellow-300 to-gold text-black font-bold text-xs uppercase tracking-widest gold-border-glow transform hover:-translate-y-1 transition-all duration-300">
+                    <i class="fa-solid fa-scissors mr-2"></i> Reserve Appointment
+                </button>
+                <a href="#branches" class="w-full sm:w-auto px-8 py-4 rounded-full glass-card text-white font-semibold text-xs uppercase tracking-widest border border-neutral-700 hover:border-gold hover:text-gold transition-all duration-300">
+                    <i class="fa-solid fa-location-dot mr-2"></i> Our Branches
+                </a>
+            </div>
+
+            <!-- Social Media Stats Quick Look -->
+            <div class="pt-12 grid grid-cols-2 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+                <div class="p-4 rounded-2xl glass-card border border-neutral-800">
+                    <div class="text-2xl sm:text-3xl font-extrabold font-serif text-gold">1M+</div>
+                    <div class="text-xs text-neutral-400 mt-1 uppercase tracking-wider">Followers</div>
+                </div>
+                <div class="p-4 rounded-2xl glass-card border border-neutral-800">
+                    <div class="text-2xl sm:text-3xl font-extrabold font-serif text-gold">71.2M+</div>
+                    <div class="text-xs text-neutral-400 mt-1 uppercase tracking-wider">Likes</div>
+                </div>
+                <div class="col-span-2 md:col-span-1 p-4 rounded-2xl glass-card border border-neutral-800">
+                    <div class="text-2xl sm:text-3xl font-extrabold font-serif text-gold">3+</div>
+                    <div class="text-xs text-neutral-400 mt-1 uppercase tracking-wider">Luxury Locations</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BRAND STATS & SOCIAL PROOF SECTION -->
+    <section id="stats" class="py-20 px-4 bg-dark-card border-y border-neutral-800 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold gold-gradient-text uppercase">The Social Phenomenon</h2>
+                <p class="text-neutral-400 text-sm mt-2">Trusted by millions across Pakistan</p>
+            </div>
+
+            <!-- Content Grid Mockup TikTok Vibe -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Video Card 1 -->
+                <div class="group relative rounded-2xl overflow-hidden glass-card border border-neutral-800 hover:border-gold/50 transition-all duration-500 transform hover:-translate-y-2">
+                    <div class="aspect-[9/12] bg-neutral-900 relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=80&w=800" 
+                             alt="Hair Styling" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                        <!-- Overlay Badge -->
+                        <div class="absolute top-4 left-4 bg-red-600/90 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                            PINNED • 4.6M VIEWS
+                        </div>
+                        <div class="absolute bottom-4 left-4 right-4">
+                            <h3 class="text-lg font-bold text-white">Lahore Opening Crowd</h3>
+                            <p class="text-xs text-neutral-300 mt-1"><i class="fa-solid fa-heart text-red-500 mr-1"></i> 890K Likes</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Card 2 -->
+                <div class="group relative rounded-2xl overflow-hidden glass-card border border-neutral-800 hover:border-gold/50 transition-all duration-500 transform hover:-translate-y-2">
+                    <div class="aspect-[9/12] bg-neutral-900 relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&q=80&w=800" 
+                             alt="Protein Treatment" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                        <div class="absolute top-4 left-4 bg-gold text-black text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                            PROTEIN SPECIALIST
+                        </div>
+                        <div class="absolute bottom-4 left-4 right-4">
+                            <h3 class="text-lg font-bold text-white">Signature Protein Treatment</h3>
+                            <p class="text-xs text-neutral-300 mt-1"><i class="fa-solid fa-heart text-red-500 mr-1"></i> 1.2M Likes</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Card 3 -->
+                <div class="group relative rounded-2xl overflow-hidden glass-card border border-neutral-800 hover:border-gold/50 transition-all duration-500 transform hover:-translate-y-2 sm:col-span-2 lg:col-span-1">
+                    <div class="aspect-[9/12] bg-neutral-900 relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&q=80&w=800" 
+                             alt="Beard Grooming" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                        <div class="absolute top-4 left-4 bg-red-600/90 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                            PINNED • 3.3M VIEWS
+                        </div>
+                        <div class="absolute bottom-4 left-4 right-4">
+                            <h3 class="text-lg font-bold text-white">Royal Beard Sculpting</h3>
+                            <p class="text-xs text-neutral-300 mt-1"><i class="fa-solid fa-heart text-red-500 mr-1"></i> 650K Likes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES SECTION -->
+    <section id="services" class="py-24 px-4 max-w-7xl mx-auto">
+        <div class="text-center mb-16 space-y-3">
+            <span class="text-xs uppercase font-bold tracking-[0.3em] text-gold">Elite Craftsmanship</span>
+            <h2 class="font-serif text-4xl sm:text-5xl font-extrabold text-white">LUXURY SERVICES</h2>
+            <div class="w-16 h-0.5 bg-gold mx-auto mt-4"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Service 1 -->
+            <div class="p-8 rounded-2xl glass-card border border-neutral-800 hover:border-gold/60 transition-all duration-300 group hover:-translate-y-2">
+                <div class="w-14 h-14 rounded-xl bg-gold/10 flex items-center justify-center text-gold text-2xl mb-6 group-hover:bg-gold group-hover:text-black transition-colors">
+                    <i class="fa-solid fa-scissors"></i>
+                </div>
+                <h3 class="font-serif text-2xl font-bold text-white mb-3">Signature Haircut</h3>
+                <p class="text-neutral-400 text-sm leading-relaxed mb-6">Master precision fade, textured scissors cut, complete with hair wash, blow dry, and custom luxury styling.</p>
+                <div class="flex items-center justify-between border-t border-neutral-800 pt-4">
+                    <span class="text-gold font-bold">PKR 2,500</span>
+                    <button onclick="openBookingModal('Signature Haircut')" class="text-xs font-semibold text-white group-hover:text-gold uppercase tracking-wider flex items-center gap-1">Book <i class="fa-solid fa-arrow-right text-[10px]"></i></button>
+                </div>
+            </div>
+
+            <!-- Service 2 -->
+            <div class="p-8 rounded-2xl glass-card border border-gold/40 shadow-lg shadow-gold/5 transition-all duration-300 group hover:-translate-y-2 relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-gold text-black text-[9px] font-bold uppercase px-3 py-1 rounded-bl-lg">Most Popular</div>
+                <div class="w-14 h-14 rounded-xl bg-gold/10 flex items-center justify-center text-gold text-2xl mb-6 group-hover:bg-gold group-hover:text-black transition-colors">
+                    <i class="fa-solid fa-[#000] fa-wand-magic-sparkles"></i>
+                </div>
+                <h3 class="font-serif text-2xl font-bold text-white mb-3">Protein Treatment</h3>
+                <p class="text-neutral-400 text-sm leading-relaxed mb-6">Our famous signature protein treatment for intense shine, hair repair, smoothness, and long-lasting hair health.</p>
+                <div class="flex items-center justify-between border-t border-neutral-800 pt-4">
+                    <span class="text-gold font-bold">PKR 6,000+</span>
+                    <button onclick="openBookingModal('Protein Treatment')" class="text-xs font-semibold text-white group-hover:text-gold uppercase tracking-wider flex items-center gap-1">Book <i class="fa-solid fa-arrow-right text-[10px]"></i></button>
+                </div>
+            </div>
+
+            <!-- Service 3 -->
+            <div class="p-8 rounded-2xl glass-card border border-neutral-800 hover:border-gold/60 transition-all duration-300 group hover:-translate-y-2">
+                <div class="w-14 h-14 rounded-xl bg-gold/10 flex items-center justify-center text-gold text-2xl mb-6 group-hover:bg-gold group-hover:text-black transition-colors">
+                    <i class="fa-solid fa-user-ninja"></i>
+                </div>
+                <h3 class="font-serif text-2xl font-bold text-white mb-3">Beard Sculpting</h3>
+                <p class="text-neutral-400 text-sm leading-relaxed mb-6">Hot towel razor detailing, sharp alignment, beard oil massage, and custom beard shape designed for your face structure.</p>
+                <div class="flex items-center justify-between border-t border-neutral-800 pt-4">
+                    <span class="text-gold font-bold">PKR 1,500</span>
+                    <button onclick="openBookingModal('Beard Sculpting')" class="text-xs font-semibold text-white group-hover:text-gold uppercase tracking-wider flex items-center gap-1">Book <i class="fa-solid fa-arrow-right text-[10px]"></i></button>
+                </div>
+            </div>
+
+            <!-- Service 4 -->
+            <div class="p-8 rounded-2xl glass-card border border-neutral-800 hover:border-gold/60 transition-all duration-300 group hover:-translate-y-2">
+                <div class="w-14 h-14 rounded-xl bg-gold/10 flex items-center justify-center text-gold text-2xl mb-6 group-hover:bg-gold group-hover:text-black transition-colors">
+                    <i class="fa-solid fa-spa"></i>
+                </div>
+                <h3 class="font-serif text-2xl font-bold text-white mb-3">Hydra Facial Glow</h3>
+                <p class="text-neutral-400 text-sm leading-relaxed mb-6">Deep skin cleansing, exfoliation, blackhead removal, and premium hydrating glow serum treatment for fresh skin.</p>
+                <div class="flex items-center justify-between border-t border-neutral-800 pt-4">
+                    <span class="text-gold font-bold">PKR 5,000</span>
+                    <button onclick="openBookingModal('Hydra Facial Glow')" class="text-xs font-semibold text-white group-hover:text-gold uppercase tracking-wider flex items-center gap-1">Book <i class="fa-solid fa-arrow-right text-[10px]"></i></button>
+                </div>
+            </div>
+
+            <!-- Service 5 -->
+            <div class="p-8 rounded-2xl glass-card border border-neutral-800 hover:border-gold/60 transition-all duration-300 group hover:-translate-y-2">
+                <div class="w-14 h-14 rounded-xl bg-gold/10 flex items-center justify-center text-gold text-2xl mb-6 group-hover:bg-gold group-hover:text-black transition-colors">
+                    <i class="fa-solid fa-crown"></i>
+                </div>
+                <h3 class="font-serif text-2xl font-bold text-white mb-3">Royal Groom Protocol</h3>
+                <p class="text-neutral-400 text-sm leading-relaxed mb-6">Complete VIP package including hair design, protein care, luxury facial, beard grooming, and relaxation massage.</p>
+                <div class="flex items-center justify-between border-t border-neutral-800 pt-4">
+                    <span class="text-gold font-bold">PKR 15,000</span>
+                    <button onclick="openBookingModal('Royal Groom Protocol')" class="text-xs font-semibold text-white group-hover:text-gold uppercase tracking-wider flex items-center gap-1">Book <i class="fa-solid fa-arrow-right text-[10px]"></i></button>
+                </div>
+            </div>
+
+            <!-- Service 6 -->
+            <div class="p-8 rounded-2xl glass-card border border-neutral-800 hover:border-gold/60 transition-all duration-300 group hover:-translate-y-2">
+                <div class="w-14 h-14 rounded-xl bg-gold/10 flex items-center justify-center text-gold text-2xl mb-6 group-hover:bg-gold group-hover:text-black transition-colors">
+                    <i class="fa-solid fa-palette"></i>
+                </div>
+                <h3 class="font-serif text-2xl font-bold text-white mb-3">Hair Coloring & Dye</h3>
+                <p class="text-neutral-400 text-sm leading-relaxed mb-6">Custom highlights, global hair color, grey coverage, and trendy metallic colors using original imported products.</p>
+                <div class="flex items-center justify-between border-t border-neutral-800 pt-4">
+                    <span class="text-gold font-bold">PKR 4,000+</span>
+                    <button onclick="openBookingModal('Hair Coloring')" class="text-xs font-semibold text-white group-hover:text-gold uppercase tracking-wider flex items-center gap-1">Book <i class="fa-solid fa-arrow-right text-[10px]"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BRANCHES SECTION -->
+    <section id="branches" class="py-24 px-4 bg-dark-card border-t border-neutral-800">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-xs uppercase font-bold tracking-[0.3em] text-gold">Visit Us</span>
+                <h2 class="font-serif text-4xl sm:text-5xl font-extrabold text-white mt-2">OUR LOCATIONS</h2>
+                <p class="text-neutral-400 text-sm mt-3">Book your appointment at any of our exclusive branches across Pakistan</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Branch 1: Lahore DHA Phase 6 -->
+                <div class="p-8 rounded-2xl glass-card border border-neutral-800 hover:border-gold transition-all duration-300 space-y-6 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-full bg-gold/10 text-gold text-xs font-bold uppercase tracking-wider">Lahore</span>
+                            <i class="fa-solid fa-building text-gold text-xl"></i>
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-white">DHA Phase 6</h3>
+                        <p class="text-neutral-400 text-sm mt-2"><i class="fa-solid fa-location-dot text-gold mr-2"></i>DHA Phase 6, Main Boulevard, Lahore</p>
+                    </div>
+                    
+                    <div class="space-y-4 pt-4 border-t border-neutral-800">
+                        <a href="tel:03244766311" class="flex items-center justify-between text-sm font-semibold text-white bg-neutral-900 hover:bg-gold hover:text-black p-3.5 rounded-xl transition-all">
+                            <span><i class="fa-solid fa-phone text-gold mr-2"></i>0324-4766311</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                        </a>
+                        <button onclick="openBookingModal('General Appointment', 'Lahore DHA Phase 6')" class="w-full py-3 rounded-xl bg-gold/20 text-gold hover:bg-gold hover:text-black font-bold text-xs uppercase tracking-wider transition-all">
+                            Book DHA Branch
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Branch 2: Lahore Karim Park -->
+                <div class="p-8 rounded-2xl glass-card border border-neutral-800 hover:border-gold transition-all duration-300 space-y-6 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-full bg-gold/10 text-gold text-xs font-bold uppercase tracking-wider">Lahore</span>
+                            <i class="fa-solid fa-building text-gold text-xl"></i>
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-white">Karim Park</h3>
+                        <p class="text-neutral-400 text-sm mt-2"><i class="fa-solid fa-location-dot text-gold mr-2"></i>Main Karim Park, Lahore</p>
+                    </div>
+                    
+                    <div class="space-y-4 pt-4 border-t border-neutral-800">
+                        <a href="tel:032342636353" class="flex items-center justify-between text-sm font-semibold text-white bg-neutral-900 hover:bg-gold hover:text-black p-3.5 rounded-xl transition-all">
+                            <span><i class="fa-solid fa-phone text-gold mr-2"></i>0323-42636353</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                        </a>
+                        <button onclick="openBookingModal('General Appointment', 'Lahore Karim Park')" class="w-full py-3 rounded-xl bg-gold/20 text-gold hover:bg-gold hover:text-black font-bold text-xs uppercase tracking-wider transition-all">
+                            Book Karim Park
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Branch 3: Islamabad G-11 -->
+                <div class="p-8 rounded-2xl glass-card border border-neutral-800 hover:border-gold transition-all duration-300 space-y-6 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-full bg-gold/10 text-gold text-xs font-bold uppercase tracking-wider">Islamabad</span>
+                            <i class="fa-solid fa-building text-gold text-xl"></i>
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-white">Islamabad G-11</h3>
+                        <p class="text-neutral-400 text-sm mt-2"><i class="fa-solid fa-location-dot text-gold mr-2"></i>G-11 Markaz, Islamabad</p>
+                    </div>
+                    
+                    <div class="space-y-4 pt-4 border-t border-neutral-800">
+                        <a href="tel:03005503606" class="flex items-center justify-between text-sm font-semibold text-white bg-neutral-900 hover:bg-gold hover:text-black p-3.5 rounded-xl transition-all">
+                            <span><i class="fa-solid fa-phone text-gold mr-2"></i>0300-5503606</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                        </a>
+                        <button onclick="openBookingModal('General Appointment', 'Islamabad G-11')" class="w-full py-3 rounded-xl bg-gold/20 text-gold hover:bg-gold hover:text-black font-bold text-xs uppercase tracking-wider transition-all">
+                            Book Islamabad
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black border-t border-neutral-800 py-12 px-4">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full p-0.5 bg-gold">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200" alt="Logo" class="w-full h-full object-cover rounded-full">
+                </div>
+                <div>
+                    <span class="font-serif text-lg font-bold text-white">STYLE BY FAZII</span>
+                    <p class="text-xs text-neutral-500">© 2026 Style By Fazii. All rights reserved.</p>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-6 text-xl text-neutral-400">
+                <a href="#" class="hover:text-gold transition-colors"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="#" class="hover:text-gold transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="hover:text-gold transition-colors"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="hover:text-gold transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE BOOKING MODAL -->
+    <div id="booking-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+        <div class="glass-card border border-gold/40 rounded-3xl max-w-lg w-full p-8 relative animate-fade-in">
+            <!-- Close Button -->
+            <button onclick="closeBookingModal()" class="absolute top-6 right-6 text-neutral-400 hover:text-white text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Modal Header -->
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 rounded-full bg-gold/20 text-gold flex items-center justify-center mx-auto mb-3 text-xl">
+                    <i class="fa-solid fa-crown"></i>
+                </div>
+                <h3 class="font-serif text-2xl font-bold text-white">VIP Appointment</h3>
+                <p class="text-xs text-neutral-400 mt-1">Book your premier slot with Style By Fazii</p>
+            </div>
+
+            <!-- Booking Form -->
+            <form id="booking-form" onsubmit="handleBookingSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-neutral-400 mb-1">Your Full Name</label>
+                    <input type="text" required placeholder="e.g. Ali Ahmed" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-neutral-400 mb-1">Phone Number</label>
+                    <input type="tel" required placeholder="0300 1234567" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-neutral-400 mb-1">Branch Location</label>
+                        <select id="modal-branch" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-3 py-3 text-sm text-white focus:outline-none focus:border-gold">
+                            <option value="Lahore DHA Phase 6">Lahore DHA Phase 6</option>
+                            <option value="Lahore Karim Park">Lahore Karim Park</option>
+                            <option value="Islamabad G-11">Islamabad G-11</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-neutral-400 mb-1">Service</label>
+                        <select id="modal-service" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-3 py-3 text-sm text-white focus:outline-none focus:border-gold">
+                            <option value="Signature Haircut">Signature Haircut</option>
+                            <option value="Protein Treatment">Protein Treatment</option>
+                            <option value="Beard Sculpting">Beard Sculpting</option>
+                            <option value="Hydra Facial Glow">Hydra Facial Glow</option>
+                            <option value="Royal Groom Protocol">Royal Groom Protocol</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-neutral-400 mb-1">Preferred Date</label>
+                    <input type="date" required class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold">
+                </div>
+
+                <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-gold via-yellow-300 to-gold text-black font-bold text-xs uppercase tracking-widest gold-border-glow hover:opacity-90 transition-all mt-4">
+                    Confirm VIP Reservation
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT & THREE.JS LOGIC -->
+    <script>
+        // --- MOBILE MENU TOGGLE ---
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+        document.getElementById('mobile-menu-btn').addEventListener('click', toggleMenu);
+
+        // --- BOOKING MODAL LOGIC ---
+        function openBookingModal(serviceName = '', branchName = '') {
+            const modal = document.getElementById('booking-modal');
+            if (serviceName) {
+                document.getElementById('modal-service').value = serviceName;
+            }
+            if (branchName) {
+                document.getElementById('modal-branch').value = branchName;
+            }
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeBookingModal() {
+            const modal = document.getElementById('booking-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function handleBookingSubmit(e) {
+            e.preventDefault();
+            alert('🎉 Thank you! Your VIP Appointment request at Style By Fazii has been received. Our team will contact you shortly.');
+            closeBookingModal();
+        }
+
+        // --- THREE.JS 3D CANVAS ANIMATION ---
+        window.onload = function() {
+            const canvas = document.getElementById('hero-canvas');
+            const scene = new THREE.Scene();
+
+            // Camera Setup
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 30;
+
+            // Renderer Setup
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            // 1. 3D Golden Particles Field
+            const particlesCount = 800;
+            const posArray = new Float32Array(particlesCount * 3);
+
+            for(let i=0; i<particlesCount*3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 80;
+            }
+
+            const particlesGeometry = new THREE.BufferGeometry();
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.15,
+                color: 0xD4AF37,
+                transparent: true,
+                opacity: 0.8
+            });
+
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+
+            // 2. 3D Floating Geometry Shape (Metallic Ring / Crown motif)
+            const torusGeometry = new THREE.TorusGeometry(10, 2, 16, 100);
+            const torusMaterial = new THREE.MeshBasicMaterial({
+                color: 0xD4AF37,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.25
+            });
+            const torus = new THREE.Mesh(torusGeometry, torusMaterial);
+            scene.add(torus);
+
+            // Mouse Interaction
+            let mouseX = 0;
+            let mouseY = 0;
+
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX / window.innerWidth - 0.5) * 2;
+                mouseY = -(event.clientY / window.innerHeight - 0.5) * 2;
+            });
+
+            // Window Resize Handler
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+
+            // Animation Loop
+            function animate() {
+                requestAnimationFrame(animate);
+
+                // Rotate 3D Elements
+                torus.rotation.x += 0.003;
+                torus.rotation.y += 0.005;
+
+                particlesMesh.rotation.y += 0.001;
+
+                // Subtle Mouse Follow Parallax Effect
+                torus.rotation.x += mouseY * 0.02;
+                torus.rotation.y += mouseX * 0.02;
+
+                renderer.render(scene, camera);
+            }
+
+            animate();
+        };
+    </script>
+</body>
+</html>
